@@ -416,7 +416,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full \
     librmnetctl \
-    android.hardware.secure_element@1.2.vendor \
     android.hardware.radio@1.5.vendor \
     android.hardware.radio.deprecated@1.0.vendor \
     android.hardware.radio@1.6.vendor \
