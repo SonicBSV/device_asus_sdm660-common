@@ -81,6 +81,7 @@ persist.vendor.service.bdroid.sibs=false
 persist.vendor.bt.aac_frm_ctl.enabled=true
 persist.vendor.qcom.bluetooth.soc=cherokee
 vendor.qcom.bluetooth.soc=cherokee
+persist.vendor.bluetooth.modem_nv_support=true
 
 # Camera
 persist.vendor.camera.eis.enable=1
