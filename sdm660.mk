@@ -161,7 +161,7 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.mapperextensions@1.1.vendor
 
 # Doze mode
-PRODUCT_PACKAGES += \
+#PRODUCT_PACKAGES += \
     Doze
 
 # DRM
