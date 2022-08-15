@@ -63,6 +63,8 @@ on fs
     restorecon_recursive /mnt/vendor/persist
     write /sys/kernel/boot_adsp/boot 1
 
+    setprop persist.sys.camera.camera2 true
+
     mkdir /mnt/vendor/dsp 0770 root root
     copy /vendor/dsp/cdsp/fastrpc_shell_3 /mnt/vendor/dsp/fastrpc_shell_3
     chmod 0644 /mnt/vendor/dsp/fastrpc_shell_3

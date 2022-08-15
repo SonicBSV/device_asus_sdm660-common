@@ -84,13 +84,11 @@ vendor.qcom.bluetooth.soc=cherokee
 persist.vendor.bluetooth.modem_nv_support=true
 
 # Camera
-persist.vendor.camera.eis.enable=1
 persist.vendor.camera.expose.aux=1
-persist.vendor.camera.is_type=5
 persist.vendor.camera.mpo.disabled=1
-persist.vendor.camera.preview.ubwc=0
-persist.vendor.camera.HAL3.enabled=1
 vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.google.android.GoogleCamera,com.google.android.apps.cameralite
+vendor.vidc.dec.enable.downscalar=0
+vendor.vidc.enc.disable.pq=true
 
 # Codec2 switch
 debug.stagefright.omx_default_rank.sw-audio=1

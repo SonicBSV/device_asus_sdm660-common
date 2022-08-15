@@ -137,6 +137,9 @@ on boot
 
     setprop ro.telephony.call_ring.multiple false
 
+    #enable camera read sensors data
+    setprop persist.camera.gyro.disable 0
+
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
     # To prevent out of order acknowledgements from making
