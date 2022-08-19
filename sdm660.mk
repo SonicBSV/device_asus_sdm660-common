@@ -141,7 +141,10 @@ PRODUCT_PACKAGES += \
     libqdMetaData \
     libqdMetaData.vendor \
     libtinyxml \
-    libvulkan
+    libvulkan \
+    vendor.display.config@1.11.vendor \
+    vendor.display.config@2.0 \
+    vendor.display.config@2.0.vendor
 
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator@2.0-impl \
@@ -151,7 +154,8 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.1-service \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
-    android.frameworks.displayservice@1.0
+    android.frameworks.displayservice@1.0 \
+    android.frameworks.displayservice@1.0.vendor
 
 # Doze mode
 #PRODUCT_PACKAGES += \
