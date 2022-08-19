@@ -509,14 +509,14 @@ PRODUCT_PACKAGES += \
 
 # FIXME: master: compat for libprotobuf
 # See https://android-review.googlesource.com/c/platform/prebuilts/vndk/v28/+/1109518
-$(foreach target, $(shell cat $(LOCAL_PATH)/vndk.txt), $(eval PRODUCT_PACKAGES += $(target).vendor))
+#$(foreach target, $(shell cat $(LOCAL_PATH)/vndk.txt), $(eval PRODUCT_PACKAGES += $(target).vendor))
 
 PRODUCT_PACKAGES += \
     libprotobuf-cpp-full-vendorcompat \
     libprotobuf-cpp-lite-vendorcompat
 
 # VNDK
-PRODUCT_EXTRA_VNDK_VERSIONS := 28 29 30
+#PRODUCT_EXTRA_VNDK_VERSIONS := 28 29 30
 
 # Wifi
 PRODUCT_PACKAGES += \
