@@ -28,6 +28,7 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <vector>
 #include <cstdlib>
 #include <fstream>
 #include <string.h>
@@ -44,17 +45,34 @@
 using android::base::GetProperty;
 using std::string;
 
+std::vector<std::string> ro_props_default_source_order = {
+    "",
+    "bootimage.",
+    "odm.",
+    "product.",
+    "system.",
+    "vendor.",
+};
+
 string heapstartsize, heapgrowthlimit, heapsize,
        heapminfree, heapmaxfree, heaptargetutilization;
 
-void property_override(string prop, string value)
+void property_override(char const prop[], char const value[], bool add = true)
 {
-    auto pi = (prop_info*) __system_property_find(prop.c_str());
+    prop_info *pi;
 
-    if (pi != nullptr)
-        __system_property_update(pi, value.c_str(), value.size());
-    else
-        __system_property_add(prop.c_str(), prop.size(), value.c_str(), value.size());
+    pi = (prop_info *) __system_property_find(prop);
+    if (pi)
+        __system_property_update(pi, value, strlen(value));
+    else if (add)
+        __system_property_add(prop, strlen(prop), value, strlen(value));
+}
+
+void property_override_dual(char const system_prop[],
+    char const vendor_prop[], char const value[])
+{
+    property_override(system_prop, value);
+    property_override(vendor_prop, value);
 }
 
 void check_device()
@@ -104,15 +122,73 @@ void NFC_check()
         property_override("ro.hq.support.nfc", "0");
 }
 
+void set_ro_build_prop(const std::string &prop, const std::string &value) {
+    for (const auto &source : ro_props_default_source_order) {
+        auto prop_name = "ro." + source + "build." + prop;
+        if (source == "")
+            property_override(prop_name.c_str(), value.c_str());
+        else
+            property_override(prop_name.c_str(), value.c_str(), false);
+    }
+};
+
+void set_ro_product_prop(const std::string &prop, const std::string &value) {
+    for (const auto &source : ro_props_default_source_order) {
+        auto prop_name = "ro.product." + source + prop;
+        property_override(prop_name.c_str(), value.c_str(), false);
+    }
+};
+
 void vendor_load_properties()
 {
     check_device();
     NFC_check();
 
-    property_override("dalvik.vm.heapstartsize", heapstartsize);
-    property_override("dalvik.vm.heapgrowthlimit", heapgrowthlimit);
-    property_override("dalvik.vm.heapsize", heapsize);
-    property_override("dalvik.vm.heaptargetutilization", heaptargetutilization);
-    property_override("dalvik.vm.heapminfree", heapminfree);
-    property_override("dalvik.vm.heapmaxfree", heapmaxfree);
+    std::string region;
+    std::string hardware_revision;
+    region = GetProperty("ro.boot.hwc", "GLOBAL");
+    hardware_revision = GetProperty("ro.boot.hwversion", "UNKNOWN");
+
+    std::string model;
+    std::string device;
+    std::string fingerprint;
+    std::string description;
+    std::string mod_device;
+    std::string build_type;
+
+    if (region == "GLOBAL") {
+        model = "ZenFone Max Pro M1";
+        device = "X00TD";
+        fingerprint = "google/raven/raven:13/TP1A.220624.021/8877034:user/release-keys";
+        description = "raven-user 13 TP1A.220624.021 8877034 release-keys";
+        mod_device = "WW_X00TD";
+    } else {
+        model = "ZenFone Max Pro M1";
+        device = "X00TD";
+        fingerprint = "google/raven/raven:13/TP1A.220624.021/8877034:user/release-keys";
+        description = "raven-user 13 TP1A.220624.021 8877034 release-keys";
+        mod_device = "WW_X00TD";
+    }
+
+    set_ro_build_prop("fingerprint", fingerprint);
+    set_ro_product_prop("device", device);
+    set_ro_product_prop("model", model);
+    property_override("ro.build.description", description.c_str());
+    if (mod_device != "") {
+        property_override("ro.product.mod_device", mod_device.c_str());
+    }
+
+    property_override_dual("ro.build.type", "ro.vendor.build.type", "user");
+    property_override_dual("ro.odm.build.type", "ro.product.build.type", "user");
+    property_override_dual("ro.system.build.type", "ro.system_ext.build.type", "user");
+
+    property_override("ro.boot.hardware.revision", hardware_revision.c_str());
+    property_override("ro.boot.verifiedbootstate", "green");
+
+//    property_override("dalvik.vm.heapstartsize", heapstartsize);
+//    property_override("dalvik.vm.heapgrowthlimit", heapgrowthlimit);
+//    property_override("dalvik.vm.heapsize", heapsize);
+//    property_override("dalvik.vm.heaptargetutilization", heaptargetutilization);
+//    property_override("dalvik.vm.heapminfree", heapminfree);
+//    property_override("dalvik.vm.heapmaxfree", heapmaxfree);
 }

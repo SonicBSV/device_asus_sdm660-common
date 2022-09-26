@@ -1,2 +1,6 @@
+# Blur
+ro.launcher.blur.appLaunch=0
+ro.surface_flinger.supports_background_blur=0
+
 # DPM
 persist.vendor.dpm.feature=11
